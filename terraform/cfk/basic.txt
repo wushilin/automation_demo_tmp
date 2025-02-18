@@ -1,0 +1,2 @@
+admin: admin5090,Administrators
+restricted: admin5090,Restricted

@@ -1,0 +1,7 @@
+aws_region = "ap-southeast-2"
+owner_email = "your@email.com"
+owner_name = "your name"
+aws_profile = "492737776546/nonprod-administrator"
+aws_instance_type = "t3.large"
+k8s_version = "1.31"
+lab_name = "your-lab-name"

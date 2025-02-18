@@ -1,0 +1,73 @@
+---
+### RBAC MTLS - Custom Certificates and Kerberos example
+##
+## The following is an example inventory file of the configuration required for setting up Confluent Platform with:
+# RBAC enabled, mTLS enabled, and Kerberos authentication on the Interbroker and external client listeners.
+
+all:
+  vars:
+    ansible_connection: ssh
+    ansible_user: ubuntu
+    ansible_become: true
+    ansible_become_method: sudo
+    ansible_become_password: "not-required"
+    ansible_ssh_private_key_file: ~/.ssh/shwu-keypair.pem
+    ansible_ssh_common_args: -o StrictHostKeyChecking=no
+    control_center_authentication_type: basic
+    control_center_basic_users:
+      admin:
+        principal: admin
+        password: admin5090
+        role: admin
+    ssl_enabled: true
+    ssl_mutual_auth_enabled: true
+
+    jmxexporter_enabled: true
+    zookeeper_quorum_authentication_type: mtls # will change to MTLS
+    zookeeper_client_authentication_type: mtls
+
+    base_dir: "/Users/shilinwu/workspace/automation_demo_tmp/terraform/ansible"
+    ssl_custom_certs: true
+    regenerate_keystore_and_truststore: true
+    ssl_ca_cert_filepath: "{{base_dir}}/certs/CA.pem"
+    ssl_signed_cert_filepath: "{{base_dir}}/certs/server.pem"
+    ssl_key_filepath: "{{base_dir}}/certs/server.key"
+    ssl_keystore_and_truststore_custom_password: true
+    ssl_truststore_password: x1234567890
+    ssl_keystore_store_password: x9876543210
+zookeeper:
+  vars:
+  hosts:
+    ec2-47-128-220-188.ap-southeast-1.compute.amazonaws.com:
+    ec2-54-255-3-169.ap-southeast-1.compute.amazonaws.com:
+    ec2-18-140-235-4.ap-southeast-1.compute.amazonaws.com:
+
+kafka_broker:
+  vars:
+  hosts:
+    ec2-18-143-159-197.ap-southeast-1.compute.amazonaws.com:
+    ec2-54-254-182-152.ap-southeast-1.compute.amazonaws.com:
+    ec2-18-141-219-77.ap-southeast-1.compute.amazonaws.com:
+
+schema_registry:
+  vars:
+  hosts:
+    ec2-54-254-169-202.ap-southeast-1.compute.amazonaws.com:
+    ec2-13-250-99-68.ap-southeast-1.compute.amazonaws.com:
+
+kafka_connect:
+  vars:
+  hosts:
+    ec2-47-129-189-18.ap-southeast-1.compute.amazonaws.com:
+    ec2-47-129-6-125.ap-southeast-1.compute.amazonaws.com:
+
+ksql:
+  vars:
+  hosts:
+    ec2-13-212-20-184.ap-southeast-1.compute.amazonaws.com:
+    ec2-3-1-101-45.ap-southeast-1.compute.amazonaws.com:
+
+control_center:
+  vars:
+  hosts:
+    ec2-13-214-161-150.ap-southeast-1.compute.amazonaws.com:
